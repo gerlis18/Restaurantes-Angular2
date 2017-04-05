@@ -13,6 +13,8 @@ export class RestauranteAddComponent implements OnInit{
     public restaurante: Restaurante;
     public status:string;
     public errorMessage:string;
+    public filesToUpload;
+
     constructor(
             private _restauranteService: RestauranteService,
             private _routeParams: RouteParams,
@@ -41,9 +43,9 @@ export class RestauranteAddComponent implements OnInit{
     ngOnInit(){
         this.restaurante = new Restaurante(
                                             0,
+                                            this._routeParams.get("descripcion"),
                                             this._routeParams.get("nombre"),
                                             this._routeParams.get("direccion"),
-                                            this._routeParams.get("descripcion"),
                                             "null",
                                             "bajo");
     }
@@ -51,4 +53,36 @@ export class RestauranteAddComponent implements OnInit{
     callPrecio(value){
         this.restaurante.precio = value;
     }
+
+    fileChangeEvent(fileInput: any){
+        this.filesToUpload = <Array<File>>fileInput.target.files;
+
+        this.makeFileRequest('http://localhost:8080/slim-api/restaurantes-api.php/upload-file',[], this.filesToUpload).then((result) => {
+            this.restaurante.imagen = result.filename;
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
+    makeFileRequest(url: string, params: Array<string>, files: Array<File>){
+         return new Promise((resolve, reject) => {
+             var formData: any = new FormData();
+             var xhr = new XMLHttpRequest();
+
+             for(var i = 0; i < files.length; i++){
+                 formData.append("uploads[]", files[i], files[i].name)
+             }
+             xhr.onreadystatechange = function() {
+                 if (xhr.readyState == 4) {
+                     if (xhr.status == 200) {
+                         resolve(JSON.parse(xhr.response))
+                     } else {
+                         reject(xhr.response);
+                     }
+                 }
+             }
+             xhr.open("POST", url, true);
+             xhr.send(formData);
+         });
+     }
 }

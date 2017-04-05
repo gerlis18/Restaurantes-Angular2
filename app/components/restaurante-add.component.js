@@ -51,10 +51,40 @@ System.register(["angular2/core", "angular2/router", "../services/restaurante.se
                     this._router.navigate(["Home"]);
                 };
                 RestauranteAddComponent.prototype.ngOnInit = function () {
-                    this.restaurante = new restaurante_1.Restaurante(0, this._routeParams.get("nombre"), this._routeParams.get("direccion"), this._routeParams.get("descripcion"), "null", "bajo");
+                    this.restaurante = new restaurante_1.Restaurante(0, this._routeParams.get("descripcion"), this._routeParams.get("nombre"), this._routeParams.get("direccion"), "null", "bajo");
                 };
                 RestauranteAddComponent.prototype.callPrecio = function (value) {
                     this.restaurante.precio = value;
+                };
+                RestauranteAddComponent.prototype.fileChangeEvent = function (fileInput) {
+                    var _this = this;
+                    this.filesToUpload = fileInput.target.files;
+                    this.makeFileRequest('http://localhost:8080/slim-api/restaurantes-api.php/upload-file', [], this.filesToUpload).then(function (result) {
+                        _this.restaurante.imagen = result.filename;
+                    }, function (error) {
+                        console.log(error);
+                    });
+                };
+                RestauranteAddComponent.prototype.makeFileRequest = function (url, params, files) {
+                    return new Promise(function (resolve, reject) {
+                        var formData = new FormData();
+                        var xhr = new XMLHttpRequest();
+                        for (var i = 0; i < files.length; i++) {
+                            formData.append("uploads[]", files[i], files[i].name);
+                        }
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState == 4) {
+                                if (xhr.status == 200) {
+                                    resolve(JSON.parse(xhr.response));
+                                }
+                                else {
+                                    reject(xhr.response);
+                                }
+                            }
+                        };
+                        xhr.open("POST", url, true);
+                        xhr.send(formData);
+                    });
                 };
                 RestauranteAddComponent = __decorate([
                     core_1.Component({
