@@ -57,8 +57,8 @@ export class RestauranteAddComponent implements OnInit{
     fileChangeEvent(fileInput: any){
         this.filesToUpload = <Array<File>>fileInput.target.files;
 
-        this.makeFileRequest('http://localhost:8080/slim-api/restaurantes-api.php/upload-file',[], this.filesToUpload).then((result) => {
-            this.restaurante.imagen = result.filename;
+        this.makeFileRequest('http://localhost:81/slim/restaurantes-api.php/upload-file',[], this.filesToUpload).then((result) => {
+            this.restaurante.imagen = (result as File).name;
         }, (error) => {
             console.log(error);
         });

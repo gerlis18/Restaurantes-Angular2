@@ -1,6 +1,5 @@
-System.register(["angular2/core", "angular2/router", "../services/restaurante.service", "../model/restaurante"], function(exports_1, context_1) {
+System.register(["angular2/core", "angular2/router", "../services/restaurante.service", "../model/restaurante"], function (exports_1, context_1) {
     "use strict";
-    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,10 +9,10 @@ System.register(["angular2/core", "angular2/router", "../services/restaurante.se
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, restaurante_service_1, restaurante_1;
-    var RestauranteAddComponent;
+    var __moduleName = context_1 && context_1.id;
+    var core_1, router_1, restaurante_service_1, restaurante_1, RestauranteAddComponent;
     return {
-        setters:[
+        setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
             },
@@ -25,8 +24,9 @@ System.register(["angular2/core", "angular2/router", "../services/restaurante.se
             },
             function (restaurante_1_1) {
                 restaurante_1 = restaurante_1_1;
-            }],
-        execute: function() {
+            }
+        ],
+        execute: function () {
             "./components/footer.component";
             RestauranteAddComponent = (function () {
                 function RestauranteAddComponent(_restauranteService, _routeParams, _router) {
@@ -59,8 +59,8 @@ System.register(["angular2/core", "angular2/router", "../services/restaurante.se
                 RestauranteAddComponent.prototype.fileChangeEvent = function (fileInput) {
                     var _this = this;
                     this.filesToUpload = fileInput.target.files;
-                    this.makeFileRequest('http://localhost:8080/slim-api/restaurantes-api.php/upload-file', [], this.filesToUpload).then(function (result) {
-                        _this.restaurante.imagen = result.filename;
+                    this.makeFileRequest('http://localhost:81/slim/restaurantes-api.php/upload-file', [], this.filesToUpload).then(function (result) {
+                        _this.restaurante.imagen = result.name;
                     }, function (error) {
                         console.log(error);
                     });
@@ -86,18 +86,20 @@ System.register(["angular2/core", "angular2/router", "../services/restaurante.se
                         xhr.send(formData);
                     });
                 };
-                RestauranteAddComponent = __decorate([
-                    core_1.Component({
-                        selector: "restaurante-add",
-                        templateUrl: "app/view/restaurante-add.html",
-                        providers: [restaurante_service_1.RestauranteService]
-                    }), 
-                    __metadata('design:paramtypes', [restaurante_service_1.RestauranteService, router_1.RouteParams, router_1.Router])
-                ], RestauranteAddComponent);
                 return RestauranteAddComponent;
             }());
+            RestauranteAddComponent = __decorate([
+                core_1.Component({
+                    selector: "restaurante-add",
+                    templateUrl: "app/view/restaurante-add.html",
+                    providers: [restaurante_service_1.RestauranteService]
+                }),
+                __metadata("design:paramtypes", [restaurante_service_1.RestauranteService,
+                    router_1.RouteParams,
+                    router_1.Router])
+            ], RestauranteAddComponent);
             exports_1("RestauranteAddComponent", RestauranteAddComponent);
         }
-    }
+    };
 });
 //# sourceMappingURL=restaurante-add.component.js.map

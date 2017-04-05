@@ -10,11 +10,11 @@ export class RestauranteService{
     constructor(private _http: Http){}
 
     getRestaurantes(){
-        return this._http.get('http://localhost:8080/slim-api/restaurantes-api.php/restaurantes').map(res => res.json());
+        return this._http.get('http://localhost:81/slim/restaurantes-api.php/restaurantes').map(res => res.json());
     }
 
     getRestaurante(id:string){
-        return       this._http.get('http://localhost:8080/slim-api/restaurantes-api.php/restaurante/'+id).map(res => res.json());
+        return       this._http.get('http://localhost:81/slim/restaurantes-api.php/restaurante/'+id).map(res => res.json());
     }
 
     addRestaurante(restaurante: Restaurante){
@@ -22,7 +22,7 @@ export class RestauranteService{
         let params = "json="+json;
         let headers = new Headers({"Content-Type":"application/x-www-form-urlencoded"});
 
-        return this._http.post('http://localhost:8080/slim-api/restaurantes-api.php/restaurantes', params, {headers: headers}).map(res => res.json());
+        return this._http.post('http://localhost:81/slim/restaurantes-api.php/restaurantes', params, {headers: headers}).map(res => res.json());
     }
 
     editRestaurante(id: string, restaurante: Restaurante){
@@ -30,10 +30,10 @@ export class RestauranteService{
         let params = "json="+json;
         let headers = new Headers({"Content-Type":"application/x-www-form-urlencoded"});
 
-        return this._http.post('http://localhost:8080/slim-api/restaurantes-api.php/update-restaurante/'+id, params, {headers: headers}).map(res => res.json());
+        return this._http.post('http://localhost:81/slim/restaurantes-api.php/update-restaurante/'+id, params, {headers: headers}).map(res => res.json());
     }
 
     deleteRestaurante(id:string){
-        return this._http.get('http://localhost:8080/slim-api/restaurantes-api.php/delete-restaurante/'+id).map(res => res.json());
+        return this._http.get('http://localhost:81/slim/restaurantes-api.php/delete-restaurante/'+id).map(res => res.json());
     }
 }
